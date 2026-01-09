@@ -11,6 +11,10 @@
 
 // PINK Only: Add the correct status codes to ALL route handlers
 
+const express = require("express")
+const app = express()
+
+
 const animalShelterData = {
     cats: [
         { name: "Whiskers", age: 2, shelter: "Happy Tails Shelter" },
@@ -22,3 +26,34 @@ const animalShelterData = {
         { name: "Cozy Paws Sanctuary", location: "456 Oak Avenue, Townsburg" }
     ]
 };
+
+app.listen(3000, () => {
+  console.log(` Server is Running!`)
+});
+
+app.get("/", (req,res) => {
+    res.status(200).send("<h1>Welcome to the Animal Shelter Network</h1>")
+});
+
+app.get("/api/cat", (req,res) => {
+    res.status(200).json(animalShelterData.cats)
+});
+
+app.get("/api/shelters", (req,res) => {
+    res.status(200).json(animalShelterData.shelters)
+});
+
+app.get("/docs", (req,res) => {
+    res.status(200).send("Go to /api/cat to see cats for adoption and /api/shelters to see shelters in the area")
+});
+
+app.get("/adopt/cat", (req,res) => {
+    res.status(200).send("A cat you can adopt is " + animalShelterData.cats[0].name)
+});
+
+app.use((req,res,next) => {
+    res.status(404).send("404 not found")
+})
+
+
+
